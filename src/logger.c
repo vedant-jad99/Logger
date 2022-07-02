@@ -1,24 +1,19 @@
 #include "logger.h"
+#include "logger_utils.h"
 #include <stdio.h>
 #include <stdarg.h>
-#include <errno.h>
 #include <string.h>
 #include <time.h>
 
 static int LOG_LEVEL = 0;
 
-static const char *log_strings(LOGGING_LEVELS level) {
-	switch(level) {
-		case DEBUG:
-			return " [DEBUG] ";
-		case INFO:
-			return " [INFO] ";
-		case WARNING:
-			return " [WARNING] ";
-		case ERROR:
-			return " [ERROR] ";
-	}
-}	
+static const char* log_level_strings[] = {
+	" OFF ",
+	" [DEBUG] ",
+	" [INFO] ",
+	" [WARNING] ",
+	" [ERROR] ",
+};
 
 static void get_datetime() {
 	time_t t = time(NULL);
@@ -37,8 +32,20 @@ static void get_datetime() {
 
 static void log_msg(LOGGING_LEVELS level) {
 	get_datetime();
-	const char* log_level = log_strings(level);
-	fprintf(stderr, log_level);
+	switch(level) {
+		case ERROR:
+			fprintf(stderr, RED "%s" RESET, log_level_strings[level]);
+			break;
+		case WARNING:
+			fprintf(stderr, YELLOW "%s" RESET, log_level_strings[level]);
+			break;
+		case INFO:
+			fprintf(stderr, GREEN "%s" RESET, log_level_strings[level]);
+			break;
+		case DEBUG:
+			fprintf(stderr, BLUE "%s" RESET, log_level_strings[level]);
+			break;
+	}
 }
 
 void log_func(LOGGING_LEVELS level, const char *frmt, ...) {
@@ -50,7 +57,7 @@ void log_func(LOGGING_LEVELS level, const char *frmt, ...) {
 	char *format = strdup(frmt);
 	strcat(format, "\n");
 	va_list argp;
-	va_start(argp, format);
+	va_start(argp, frmt);
 	vfprintf(stderr, format, argp);
 	va_end(argp);
 
