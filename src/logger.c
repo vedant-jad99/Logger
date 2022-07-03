@@ -2,8 +2,6 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
-#include <fcntl.h>
-#include <errno.h>
 #include <time.h>
 
 //Global variables to keep track of log files.
