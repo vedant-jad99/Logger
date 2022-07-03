@@ -7,7 +7,7 @@
 
 void test_init(void) {
 	init_logger(INFO, "log.log", true); //Will write to log.log file
-	//init_logger(DEBUG, NULL, true); //Will write to the default log path. Needs to be run with sudo.
+//	init_logger(DEBUG, NULL, true); //Will write to the default log path. Needs to be run with sudo.
 //	init_logger(DEBUG, NULL, false); //Will output to stderr console.
 }
 

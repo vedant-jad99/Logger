@@ -34,11 +34,11 @@ void init_logger(LOGGING_LEVELS, const char *, bool);
  *
  * @retval None.
  */
-void log_func(LOGGING_LEVELS level, const char *frmt, ...);
+void log_func(LOGGING_LEVELS level, const char *filename, const size_t line, const char *frmt, ...);
 
-#define log_debug(...) log_func(DEBUG, __VA_ARGS__)
-#define log_info(...)  log_func(INFO, __VA_ARGS__)
-#define log_warn(...)  log_func(WARNING, __VA_ARGS__)
-#define log_error(...) log_func(ERROR, __VA_ARGS__)
+#define log_debug(...) log_func(DEBUG, __FILE__, __LINE__, __VA_ARGS__)
+#define log_info(...)  log_func(INFO, __FILE__, __LINE__, __VA_ARGS__)
+#define log_warn(...)  log_func(WARNING, __FILE__, __LINE__, __VA_ARGS__)
+#define log_error(...) log_func(ERROR, __FILE__, __LINE__, __VA_ARGS__)
 
 #endif

@@ -10,11 +10,11 @@ static const char* log_filename = DEFAULT_LOG_PATH;
 static bool write_to_file = false;
 
 static const char* log_level_strings[] = {
-	" OFF ",
-	" [DEBUG] ",
-	" [INFO] ",
-	" [WARNING] ",
-	" [ERROR] ",
+	"OFF",
+	"[DEBUG]",
+	"[INFO]",
+	"[WARNING]",
+	"[ERROR]",
 };
 
 const char* colors[] = {
@@ -58,14 +58,14 @@ static void get_datetime(FILE *fptr) {
 static void log_msg(LOGGING_LEVELS level, FILE *fptr) {
 	get_datetime(fptr);
 	if(fptr == stderr) {
-		fprintf(fptr, "%s%s%s", colors[level], log_level_strings[level], colors[RESET]);
+		fprintf(fptr, "%s%-10s%s", colors[level], log_level_strings[level], colors[RESET]);
 	}
 	else {
-		fprintf(fptr, "%s", log_level_strings[level]);
+		fprintf(fptr, "%-10s", log_level_strings[level]);
 	}
 }
 
-void log_func(LOGGING_LEVELS level, const char *frmt, ...) {
+void log_func(LOGGING_LEVELS level, const char *file, const size_t line, const char *frmt, ...) {
 	if(LOG_LEVEL > level) {
 		return;
 	}
@@ -80,6 +80,7 @@ void log_func(LOGGING_LEVELS level, const char *frmt, ...) {
 	}
 
 	log_msg(level, fptr);
+	fprintf(fptr, "%s: %lu: ", file, line);
 	
 	char *format = strdup(frmt);
 	strcat(format, "\n");
